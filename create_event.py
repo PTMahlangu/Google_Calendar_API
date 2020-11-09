@@ -1,24 +1,26 @@
-from config import config,convert_to_RFC_datetime
+from config import config
 import pickle
 import os.path
 from pprint import pprint
+import datetime
 
-def create_event(title,description,calendar_id,time_from=[2020, 11, 6, 16, 30],time_to=[2020, 11, 6, 17, 30]):
+
+def create_event(title,distription):
     service,status = config()
     if status == 201:
         event = {
         'summary': title,
-        'description': description,
+        'description': distription,
         'start': {
-            'dateTime': convert_to_RFC_datetime(time_from[0],time_from[1], time_from[2], time_from[3], time_from[4]),
-            'timeZone': 'America/Los_Angeles',
+            'dateTime': datetime.datetime(year=2020, month=11, day=10, hour=8, minute=0).isoformat() + 'Z',
+            'timeZone': 'Africa/Johannesburg',
         },
         'end': {
-            'dateTime': convert_to_RFC_datetime(time_to[0],time_to[1], time_to[2], time_to[3], time_to[4]),
-            'timeZone': 'America/Los_Angeles',
+            'dateTime': datetime.datetime(year=2020, month=11, day=10, hour=9, minute=0).isoformat() + 'Z',
+            'timeZone': 'Africa/Johannesburg',
         },
         'attendees': [
-            {'email': 'pimahlan@wethinkcode.co.za'},
+            # {'email': 'pimahlan@student.wethinkcode.co.za'},
             {'email': 'mahlangupt.1010@gmail.com'},
 
         ],
@@ -32,11 +34,12 @@ def create_event(title,description,calendar_id,time_from=[2020, 11, 6, 16, 30],t
         }
 
         event = service.events().insert(
-            calendarId=calendar_id, 
+            calendarId='primary', 
             body=event
             ).execute()
         print("Event created successfully")
             
 
 if __name__ == '__main__':
-    create_event(title,description,calendar_id,time_from=[2020, 11, 6, 16, 30],time_to=[2020, 11, 6, 17, 30])
+    
+    create_event("WETHINKCODE","group projet")
