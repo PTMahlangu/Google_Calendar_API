@@ -10,20 +10,19 @@ def get_calendar_id():
     if status == 201:
         response = service.calendarList().list().execute()
         calendars = response.get('items',[])
-
-        if not calendars:
-            return None
             
         for calendar in calendars:
             summary = calendar['summary']
             id = calendar['id']
             if summary =='Code Clinic':
-                print(summary,id)
                 return id
-        return None
+
+        id = create_calendar()
+        return id
 
             
 def create_calendar():
+    
     service,status = config()
     if status == 201 :
         calendar_name ={
@@ -33,4 +32,5 @@ def create_calendar():
         return response.get('id')
 
 if __name__ == '__main__':
-    print(create_calendar())
+    id = get_calendar_id()
+    print(id)
