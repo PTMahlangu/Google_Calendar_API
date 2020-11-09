@@ -5,15 +5,15 @@ import pickle
 import os.path
 
 
-
-def get_events(no_of_events):
+def get_events(no_days=1):
     service,status = config()
     if status == 201:
-        now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-
+        today = datetime.datetime.today()
+        max_days = (today + datetime.timedelta(days = no_days)).isoformat() + 'Z' 
         events_result = service.events().list(calendarId='primary', 
-                                            timeMin=now,
-                                            maxResults=no_of_events, 
+                                            timeMin=today.isoformat() + 'Z',
+                                            timeMax = max_days,
+                                            maxResults=no_days, 
                                             singleEvents=True,
                                             orderBy='startTime').execute()
         events = events_result.get('items', [])
@@ -28,4 +28,4 @@ def get_events(no_of_events):
             
 
 if __name__ == '__main__':
-    get_events(2)
+    get_events()
