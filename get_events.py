@@ -13,7 +13,7 @@ def get_events(no_days=1):
         events_result = service.events().list(calendarId='primary', 
                                             timeMin=today.isoformat() + 'Z',
                                             timeMax = max_days,
-                                            maxResults=no_days, 
+                                            maxResults=100, 
                                             singleEvents=True,
                                             orderBy='startTime').execute()
         events = events_result.get('items', [])
